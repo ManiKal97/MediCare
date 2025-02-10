@@ -12,7 +12,7 @@ stages{
        {
            steps{
                  script {
-                  sh '/usr/local/bin/docker build -t medicare .'
+                  sh 'docker build -t medicare .'
                  }
                 }
         }
@@ -20,7 +20,7 @@ stages{
        {
            steps{
                  script {
-                     sh '/usr/local/bin/docker run -p 8090:80 medicare'  
+                     sh 'docker run -p 8090:80 medicare'  
                  }
                 }
         }
