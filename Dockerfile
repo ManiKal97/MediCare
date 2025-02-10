@@ -1,10 +1,8 @@
-FROM node:22.13.1 AS builder
+FROM node:latest as node
+RUN mkdir -p /app
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . ./
-RUN npm run build --prod
-FROM nginx:latest
-COPY --from=builder /app/dist/medi-care /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx","-g","daemon off;"]
+COPY package*.json /app/
+RUN npm install 
+COPY . /app/
+EXPOSE 4200
+CMD ["npm", "run", "start"]

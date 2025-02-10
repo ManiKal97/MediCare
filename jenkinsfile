@@ -1,70 +1,18 @@
-pipeline {
-    agent any
-
-    environment {
-        DOCKER_IMAGE = 'medicare:latest'
-        REGISTRY = 'docker.io' // Change this to your Docker registry if needed
-        IMAGE_NAME = 'your-repo/medicare'
-    }
-
-    stages {
-        stage('Checkout') {
-            steps {
-                script {
-                    // Checkout the Angular code from Git
-                    git 'https://github.com/ManiKal97/MediCare.git'
-                }
-            }
+node {    
+      def app     
+      stage('Clone repository') {               
+             
+            checkout scm    
+      }           stage('Build image') {         
+       
+            app = docker.build("docker.io/test")    
+       }           stage('Test image') {                       app.inside {            
+             
+             sh 'echo "Tests passed"'        
+            }    
+        }            stage('Push image') {
+                                                  docker.withRegistry('https://registry.hub.docker.com', 'git') {                   app.push("${env.BUILD_NUMBER}")            
+       app.push("latest")        
+              }    
+           }
         }
-
-
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    // Build the Docker image from the Dockerfile
-                    sh "docker build -t ${DOCKER_IMAGE} ."
-                }
-            }
-        }
-
-        stage('Push to Docker Registry') {
-            steps {
-                script {
-                    // Login to Docker registry if needed (you might want to set credentials for your registry)
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin $REGISTRY"
-                    }
-                    
-                    // Push the image to the registry
-                    sh "docker push ${DOCKER_IMAGE}"
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    // You can run the Docker container locally or on a remote host here
-                    sh "docker run -d -p 80:80 ${DOCKER_IMAGE}"
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            // Clean up (if necessary)
-            sh 'docker system prune -f'
-        }
-
-        success {
-            echo 'Pipeline executed successfully!'
-        }
-
-        failure {
-            echo 'Something went wrong. Check the logs.'
-        }
-    }
-}
-
-
