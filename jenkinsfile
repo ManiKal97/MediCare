@@ -1,6 +1,8 @@
 pipeline{
 agent any 
-
+   tools{
+        dockerTool 'TestAppAngularDocker'
+    }
 stages{
     stage('Clone Repository')
        {
@@ -20,7 +22,7 @@ stages{
        {
            steps{
                  script {
-                     sh '/usr/local/bin/docker run -p 8000:8000 medicare-image .'  
+                     sh '/usr/local/bin/docker run -p 8090:80 medicare-image .'  
                  }
                 }
         }
