@@ -17,15 +17,6 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                script {
-                    // Install dependencies via npm
-                    sh 'npm install'
-                }
-            }
-        }
-
         stage('Build Angular App') {
             steps {
                 script {
