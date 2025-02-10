@@ -1,52 +1,29 @@
-pipeline {
-    agent any
-    environment {
-        DOCKER_IMAGE = 'medicare:latest'  // Specify your Docker image name
-        CONTAINER_NAME = 'my-container'   // Specify your container name
-    }
-    stages {
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    // Build Docker image if it's not already available
-                    // You can replace this with a `docker pull` if you want to pull an image from a registry
-                    docker.build(DOCKER_IMAGE, '.')
+pipeline{
+agent any 
+  
+stages{
+    stage('Clone Repository')
+       {
+           steps{
+                 git 'https://github.com/ManiKal97/MediCare.git'
                 }
-            }
         }
-        stage('Run Docker Container') {
-            steps {
-                script {
-                    // Run the Docker container in the background
-                    sh "docker run -d --name ${CONTAINER_NAME} ${DOCKER_IMAGE}"
+    stage('Build Docker Image')
+       {
+           steps{
+                 script {
+                  sh '/usr/local/bin/docker build -t medicare .'
+                 }
                 }
-            }
         }
-        stage('Test or Work with the Container') {
-            steps {
-                script {
-                    // Execute commands inside the running container if needed
-                    // Example: run some tests in the container
-                    sh "docker exec ${CONTAINER_NAME} some-test-command"
+         stage('Run Docker Container')
+       {
+           steps{
+                 script {
+                     sh '/usr/local/bin/docker run -p 8090:80 medicare'  
+                 }
                 }
-            }
         }
-        stage('Stop and Clean Up') {
-            steps {
-                script {
-                    // Clean up: stop and remove the container
-                    sh "docker stop ${CONTAINER_NAME}"
-                    sh "docker rm ${CONTAINER_NAME}"
-                }
-            }
-        }
-    }
-    post {
-        always {
-            // Ensure the container is removed even if the pipeline fails
-            script {
-                sh "docker ps -a | grep ${CONTAINER_NAME} && docker rm -f ${CONTAINER_NAME} || true"
-            }
-        }
-    }
+}
+
 }
