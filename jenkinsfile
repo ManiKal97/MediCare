@@ -12,7 +12,7 @@ stages{
        {
            steps{
                  script {
-                  sh 'docker build -t medicare:latest .'
+                  bash 'docker build -t medicare:latest .'
                  }
                 }
         }
