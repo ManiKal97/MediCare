@@ -20,7 +20,7 @@ stages{
        {
            steps{
                  script {
-                     bat 'docker run -p 8090:80 medicare'  
+                     bat 'docker run -p 8092:80 medicare'  
                  }
                 }
         }
