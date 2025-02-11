@@ -2,7 +2,7 @@ pipeline{
 agent any 
   
 stages{
-    stage('Clone Repository')
+    stage('Clone Repository 1')
        {
            steps{
                  git 'https://github.com/ManiKal97/MediCare.git'
