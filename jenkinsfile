@@ -12,7 +12,7 @@ stages{
        {
            steps{
                  script {
-                  bat 'docker build -t medicare:latest .'
+                  bat 'docker build -t angular-docker:latest .'
                  }
                 }
         }
@@ -20,7 +20,7 @@ stages{
        {
            steps{
                  script {
-                     bat 'docker run -p 8092:80 medicare'  
+                     bat 'docker run -d -p 4201:4200 angular-docker'  
                  }
                 }
         }
