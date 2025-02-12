@@ -42,7 +42,7 @@ stages{
                         // Restart the container
                         bat "docker restart ${containerName}"
                     } else {
-                        bat 'docker run -d --medicare -p 8092:80 medicare'
+                        bat 'docker run -d --name medicare -p 8092:80 medicare'
                     }
                 }
             }
