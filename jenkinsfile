@@ -12,17 +12,39 @@ stages{
        {
            steps{
                  script {
-                  bat 'docker build -t angular-docker:latest .'
+                  bat 'docker build -t medicare:latest .'
                  }
                 }
         }
-         stage('Run Docker Container')
-       {
-           steps{
-                 script {
-                     bat 'docker run -d -p 4201:4200 angular-docker'  
-                 }
+        // stage('Run Docker Container')
+      // {
+        //   steps{
+          //       script {
+            //         bat 'docker run -p 8092:80 medicare'  
+               //  }
+              //  }
+       // }
+        stage('Check and Restart Docker Container') {
+            steps {
+                script {
+                    def containerName = 'medicare'
+                    
+                    // Check if the container is running using the 'docker ps' command in a batch script
+                    def containerRunning = bat(script: "docker ps -q -f name=${containerName}", returnStdout: true).trim()
+
+                    if (containerRunning) {
+                        echo "Container ${containerName} is running. Stopping and restarting it..."
+                        
+                        // Stop the container
+                        bat "docker stop ${containerName}"
+                        
+                        // Restart the container
+                        bat "docker restart ${containerName}"
+                    } else {
+                        bat 'docker run -p 8092:80 medicare'
+                    }
                 }
+            }
         }
 }
 
