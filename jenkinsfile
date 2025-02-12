@@ -30,7 +30,8 @@ stages{
                     def containerName = 'medicare'
                     
                     // Check if the container is running using the 'docker ps' command in a batch script
-                    def containerRunning = bat(script: "docker ps -q -f name=${containerName}", returnStdout: true).trim()
+                    // def containerId = bat(script: "docker ps -q --filter 'name=my-container'", returnStdout: true).trim()
+                    def containerRunning = bat(script: "docker ps --filter 'name=${containerName}' -q", returnStdout: true).trim()
 
                     if (containerRunning) {
                         echo "Container ${containerName} is running. Stopping and restarting it..."
