@@ -34,7 +34,7 @@ stages{
                     def containerRunning = bat(script: "docker ps --filter name=${containerName} -q", returnStdout: true).trim()
 
                     if (containerRunning) {
-                        echo "Container ${containerName} is running. Stopping and restarting it..."
+                        echo "Container ${containerName} is running. Stopping and restarting it... mmmmm"
                         
                         // Stop the container
                         bat "docker stop ${containerName}"
