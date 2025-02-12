@@ -39,7 +39,7 @@ stages{
                         // Stop the container
                         bat "docker stop ${containerName}"
                         
-                        // Restart the container
+                        // Restart the container,,,
                         bat "docker restart ${containerName}"
                     } else {
                         bat 'docker run -d --name medicare -p 4201:4200 angular-docker'
