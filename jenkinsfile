@@ -22,7 +22,7 @@ stages{
           //       script {
             //         bat 'docker run -p 8092:80 medicare'  
                //  }
-              //  }
+              //  ..}
        // }
         stage('Check and Restart Docker Container') {
             steps {
