@@ -42,6 +42,7 @@ stages{
                         // Restart the container,,,
                         bat "docker restart ${containerName}"
                     } else {
+                        echo "Container ${containerRunning} test 44sss1"
                         bat 'docker run -d --name medicare -p 4201:4200 angular-docker'
                     }
                 }
